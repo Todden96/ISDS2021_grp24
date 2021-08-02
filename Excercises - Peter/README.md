@@ -1,1 +1,1 @@
-# Excercises - Peter
+# Exercises - Peter
