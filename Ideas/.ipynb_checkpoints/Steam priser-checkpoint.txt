@@ -1,0 +1,9 @@
+Points of interest:
+
+Steam Web API
+
+steamdb.info
+
+https://partner.steamgames.com/doc/store/pricing/new_currency
+
+https://partner.steamgames.com/doc/store/pricing
