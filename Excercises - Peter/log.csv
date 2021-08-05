@@ -4,3 +4,5 @@ id;project;connector_type;t;delta_t;url;redirect_url;response_size;response_code
 2;download_jobposting;requests;1628109875.2423239;-0.06801915168762207;https://job.jobnet.dk/CV/FindWork?Offset=1180&SortValue=BestMatch;https://job.jobnet.dk/CV/FindWork?Offset=1180&SortValue=BestMatch;21488;200;True;
 3;download_jobposting;requests;1628109881.589254;-0.017162084579467773;https://job.jobnet.dk/CV/FindWork?Offset=12420&SortValue=BestMatch;https://job.jobnet.dk/CV/FindWork?Offset=12420&SortValue=BestMatch;21489;200;True;
 4;download_jobposting;requests;1628109986.363091;-0.018674373626708984;https://job.jobnet.dk/CV/FindWork?Offset=4400&SortValue=BestMatch;https://job.jobnet.dk/CV/FindWork?Offset=4400&SortValue=BestMatch;21488;200;True;
+5;download_jobposting;requests;1628147584.4713407;-0.20813751220703125;https://job.jobnet.dk/CV/FindWork?Offset=9100&SortValue=BestMatch;https://job.jobnet.dk/CV/FindWork?Offset=9100&SortValue=BestMatch;21488;200;True;
+6;download_jobposting;requests;1628147939.2689812;-0.140305757522583;https://job.jobnet.dk/CV/FindWork?Offset=10580&SortValue=BestMatch;https://job.jobnet.dk/CV/FindWork?Offset=10580&SortValue=BestMatch;21489;200;True;
