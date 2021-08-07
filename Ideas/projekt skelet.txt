@@ -1,0 +1,51 @@
+projekt delelementer
+
+projekt mål: predict pris på (Steam) spil
+
+research question: 
+
+
+pseudo-code udkast, overview:
+
+# hvad scraper vi på?
+access Steam-katalog
+scrape katalog for titel-navne 
+evt. også scrape efter bestemte parametre, og drop de spil som ikke opfylder dem
+saml katalog i liste #som kan fodres til SteamDB-navigator
+
+
+# hvad scraper vi?
+for spil på Steam:
+    naviger til sted med passende info (SteamDB)
+    (scrape navn)
+    scrape pris i $ eller €
+    scrape prisforskel for hver valuta
+    scrape tags
+    scrape sprog (evt. også subtitles)
+    scrape hvorvidt har adult content
+    
+    evt også ...
+    scrape udgivelsesdato
+    scrape "Primary Genre" og evt. "Store Genres"
+    
+    evt. også diagnostisk data ...
+    scrape all-time peak nr of players (hvis ikke allerede gjort, dertil evt. drop spil med <20)
+    scrape review score
+
+
+# hvordan varierer pris efter valuta?
+beregn gennemsnitlige pris afhængig af valuta
+evt. inddrag BNP (etc.) 
+
+
+# hvordan hænger predictors og pris sammen?
+foder indsamlede data til ML (regression)
+train og test, end med en predicting model 
+
+
+# hvad predicter vi?
+for upcoming spil på Steam:
+    scrape de samme variabler som foroven (minus diagnostisk)
+anvend ML model
+
+
