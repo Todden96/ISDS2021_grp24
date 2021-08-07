@@ -7,3 +7,5 @@ steamdb.info
 https://partner.steamgames.com/doc/store/pricing/new_currency
 
 https://partner.steamgames.com/doc/store/pricing
+
+Steam Storefront API documentation: https://wiki.teamfortress.com/wiki/User:RJackson/StorefrontAPI
