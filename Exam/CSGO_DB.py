@@ -117,6 +117,12 @@ def MostFollwedUpcomming():
 
     driver.close()
 
+    df_upcomming = df_upcomming.drop(df_upcomming.columns[[0, 3, -1]], axis=1)
+
+    df_upcomming['Name'] = df_upcomming['Name'].str.rstrip("\nGame")
+
+
     return df_upcomming
 
 df_upcome = MostFollwedUpcomming() # tester
+
