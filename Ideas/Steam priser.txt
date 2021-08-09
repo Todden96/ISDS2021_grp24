@@ -9,3 +9,5 @@ https://partner.steamgames.com/doc/store/pricing/new_currency
 https://partner.steamgames.com/doc/store/pricing
 
 Steam Storefront API documentation: https://wiki.teamfortress.com/wiki/User:RJackson/StorefrontAPI
+
+List of (all?) tags on Steam: https://steamdb.info/tags/
