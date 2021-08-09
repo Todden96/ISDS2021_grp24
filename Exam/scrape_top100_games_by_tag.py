@@ -1,5 +1,5 @@
 # Grab 100 games within tag ID
-
+id = 19
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
@@ -53,8 +53,10 @@ def scrape_top100_games_by_tag_id(id):
 
     df = pd.DataFrame(data=list_db, columns=header_list).iloc[:, 1:]
 
-
     df['id'] = tmp_df['hyperlinks'].str.rsplit("/", expand=True).iloc[:, -2]
 
+    df = df[(pd.to_numeric(df['Online'], errors='coerce') != 0) | (pd.to_numeric(df['Peak'], errors='coerce') != 0)] # check to see if there are any unpublished games in the DataFrame
+
+    driver.quit()
 
     return df

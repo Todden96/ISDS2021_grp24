@@ -1,94 +1,55 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
+from random import randint
+from time import sleep
+from tqdm import tqdm
+import os
+from multiprocessing import Pool
 
 
+from ISDS2021_grp24.Exam.grab_game_price_data import Steam_DB_Price_WebScrape
+from ISDS2021_grp24.Exam.scrape_top100_games_by_tag import scrape_top100_games_by_tag_id
 
-def Steam_DB_Price_WebScrape(id, path2selenium='C:/chromedriver.exe', tags=True):
-
-    """
-
-    :param id: input str
-    :param path2selenium: input stra
-    :return: DataFrame
-    """
-
-    # settings for Selenium
-    driver = webdriver.Chrome(path2selenium)
-    driver.get('https://steamdb.info/app/'+ str(id) +'/')  # website
-
-    driver.find_element_by_id("tab-prices").click()
-
-    prices = driver.find_element_by_id("prices")
+os.chdir(r'C:\Users\Johan\OneDrive - University of Copenhagen\8. Semester\ISDS')
+tags_df = pd.read_csv("tags.csv")
 
 
-    tags = []
-
-    for i in range(len(prices.find_elements_by_class_name("btn.btn-sm.btn-outline.btn-tag"))):
-        tags.append(prices.find_elements_by_class_name("btn.btn-sm.btn-outline.btn-tag")[i].text)
-
-    if 'Free to Play' in tags:
-        driver.quit()
-
-
-        return print("This game is free to play")
-
-    else:
-        table = driver.find_elements_by_class_name("table")[1]  # prices table
-
-        header = table.find_elements()  # Header
-
-        body = table.find_elements_by_tag_name("tbody")[0]  # selecting the tbody of the table
-
-        rows = body.find_elements_by_tag_name("tr")  # finding the rows of the tbody
-        column_length = rows[0].find_elements_by_tag_name("td")
-        cells = body.find_elements_by_tag_name("td")
-
-        list_db = []
-        for x in range(len(rows)):
-            innerlist = []
-            for i in range(len(rows[x].find_elements_by_tag_name("td"))):
-                innerlist.append(rows[x].find_elements_by_tag_name("td")[i].text)
-            list_db.append(innerlist)
-
-        df = pd.DataFrame(list_db)
-
-        if tags == True:
-            prices = driver.find_element_by_id("prices")
-
-            tags = []
-
-            for i in range(len(prices.find_elements_by_class_name("btn.btn-sm.btn-outline.btn-tag"))):
-                tags.append(prices.find_elements_by_class_name("btn.btn-sm.btn-outline.btn-tag")[i].text)
-
-            df['tags'] = ""
-
-            for k in range(len(rows)):
-                df.at[k, 'tags'] = tags
-
-        driver.quit()
-
-        return df
-
-df_value = Steam_DB_Price_WebScrape(271590) # test on GTA V
-
-
-
-df_value2 = Steam_DB_Price_WebScrape(7940) # test on CoD IV
-
-
-df_value3 = Steam_DB_Price_WebScrape(570) # test on Dota 2 Free game
+# Finding all DataFrame IDs already downloaded
+path = r'C:\Users\Johan\OneDrive - University of Copenhagen\8. Semester\ISDS\Data'
+csvtable_list = []
+id_check_list = []
+os.chdir(path)
+for filename in os.listdir(path):
+    if filename.endswith('.csv'):
+        csvtable_list.append(pd.read_csv(filename,sep=","))
+        id_check_list.append(filename[:-4].split("_")[2])
 
 
 
 
+action_id = tags_df.iloc[3, 1]
+
+action_id_df = scrape_top100_games_by_tag_id(action_id)
 
 
 
+category_id = [*action_id_df.iloc[:, 5]]
+
+category_name = [*action_id_df.iloc[:, 0]]
+
+price_dict = {}
 
 
-
+for id in tqdm([*action_id_df.iloc[:, 5]]):
+    #Dynamically create Data frames
+    if id not in id_check_list:   # checks if the DataFrame has already been downloaded
+        sleep(0.75)
+        try:
+            price_dict[id] = Steam_DB_Price_WebScrape(id)
+            print(f' SteamDB id: {id}')
+        except:
+            pass
+        if isinstance(price_dict[id], pd.DataFrame): # checks if there is a valid dataframe
+            price_dict[id].to_csv('dataframe_id_'+str(id)+'.csv')
 
 
 
