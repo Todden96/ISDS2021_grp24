@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 
 
@@ -79,20 +78,3 @@ df_value2 = Steam_DB_Price_WebScrape(7940) # test on CoD IV
 
 
 df_value3 = Steam_DB_Price_WebScrape(570) # test on Dota 2 Free game
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
