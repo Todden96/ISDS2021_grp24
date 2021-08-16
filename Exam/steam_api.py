@@ -3,10 +3,6 @@ import requests
 from datetime import datetime
 import numpy as np
 
-# id = 433850
-# id = 534380
-id = 1625450
-
 tags_list = ['Indie',
              'Low Confidence Metric',
              'Action',
@@ -471,61 +467,86 @@ def steam_info(id):
  spy_api = 'https://steamspy.com/api.php?request=appdetails&appid='+ str(id) +''
  steam_api = 'http://store.steampowered.com/api/appdetails?appids='+ str(id) +'&cc=us'
 
- spy_api_page = requests.get(spy_api).json()
+ if bool(requests.get(steam_api).json()[str(id)]['success']) == True:
+     spy_api_page = requests.get(spy_api).json()
+     steam_api_page = requests.get(steam_api).json()[str(id)]['data']
 
- steam_api_page = requests.get(steam_api).json()[str(id)]['data']
-
- # Dataframe
- if steam_api_page['type'] == 'game':
-
-
-    d = pd.DataFrame(0, index=np.arange(len(header_column)), columns=header_column)
-
-    if spy_api_page['languages'] is not None:
-        for item in spy_api_page['languages'].split(", "):
-         if item in lang_list:
-          d[item] = 1
-    else:
-        for item in steam_api_page['supported_languages']:
-            if item in lang_list:
-                d[item] = 1
-
-    if isinstance(spy_api_page['tags'], dict) == True:
-        for item in [*spy_api_page['tags'].keys()]:
-         if item in tags_list:
-          d[item] = 1
-
-    d['id'] = id
-
-    d['name'] = spy_api_page['name']
-
-    d['age'] =  steam_api_page['required_age']
-
-    # d['release_date'] = datetime.strptime(steam_api_page['release_date']['date'], '%b %d, %Y')# Converting the date into datetime index
-
-    d['release_date'] = steam_api_page['release_date']['date']# Converting the date into datetime index
+     # Dataframe
+     if steam_api_page['type'] == 'game':
 
 
-    if spy_api_page['price'] is not None:
-            d['price'] = int(spy_api_page['price'])/100
-    else:
-        d['price'] = 0
+        d = pd.DataFrame(0, index=np.arange(len(header_column)), columns=header_column)
 
-    d['developer'] = spy_api_page['developer']
+        # if steam_api_page['supported_languages'] is not None:
+        try:
+            for item in steam_api_page['supported_languages'].split(", "):
+             if item in lang_list:
+              d[item] = 1
+        except Exception:
+              pass
+        # else:
+        #     for item in steam_api_page['supported_languages']:
+        #         if item in lang_list:
+        #             d[item] = 1
+
+        if isinstance(spy_api_page['tags'], dict) == True:
+            for item in [*spy_api_page['tags'].keys()]:
+             if item in tags_list:
+              d[item] = 1
+
+        d['id'] = id
+
+        # if spy_api_page['name'] is not None:
+        #     d['name'] = spy_api_page['name']
+        # else:
+        d['name'] = steam_api_page['name']
+
+        d['age'] =  steam_api_page['required_age']
+
+        if bool(steam_api_page['release_date']['date'] != 'Coming Soon') == True:
+            if  len(str(steam_api_page['release_date']['date'])) == 12:
+                d['release_date'] = datetime.strptime(steam_api_page['release_date']['date'], '%b %d, %Y')
+            elif len(str(steam_api_page['release_date']['date'])) == 11:
+                d['release_date'] = datetime.strptime(steam_api_page['release_date']['date'], '%b %d, %Y')
+            elif len(str(steam_api_page['release_date']['date'])) == 8:
+                d['release_date'] = datetime.strptime(steam_api_page['release_date']['date'], '%b %Y')
+            else:
+                d['release_date'] = 0
+        else:
+            d['release_date'] = 0
+        # Api Price
+        if steam_api_page['is_free'] == False:
+            # if spy_api_page['price'] is not None and spy_api_page['price'] != '0' == True:
+            #         d['price'] = int(spy_api_page['price']) / 100
+            if bool('price_overview' in steam_api_page) == True:
+                # if steam_api_page['price_overview']['initial'] is not None == True:
+                    d['price'] = steam_api_page['price_overview']['initial'] / 100
+            else:
+                d['price'] = 0
+        else:
+            d['price']  = 0
 
 
-    try:
-        d['num_lang'] = len(spy_api_page['languages'].split(", "))
-    except Exception:
-        pass
-
-    if isinstance(spy_api_page['tags'], dict) == True:
-        d['num_tags'] = len([*spy_api_page['tags'].keys()])
-
-    d['free to play'] = steam_api_page['is_free']
-
-    return d.iloc[0, :].to_dict()  # d.iloc[0, :].T.to_csv('steam_data_id_'+str(id)+'.csv')
- else:
+        d['developer'] = spy_api_page['developer']
 
 
-    return pd.DataFrame(0, index=np.arange(len(header_column)), columns=header_column).iloc[0, :].to_dict()
+        try:
+            d['num_lang'] = len(spy_api_page['languages'].split(", "))
+        except Exception:
+            pass
+
+        if isinstance(spy_api_page['tags'], dict) == True:
+            d['num_tags'] = len([*spy_api_page['tags'].keys()])
+
+        d['free to play'] = steam_api_page['is_free']
+
+        return d.iloc[0, :].to_dict()  # d.iloc[0, :].T.to_csv('steam_data_id_'+str(id)+'.csv')
+     else:
+
+      return pd.DataFrame(0, index=np.arange(len(header_column)), columns=header_column).iloc[0, :].to_dict()
+
+ return pd.DataFrame(0, index=np.arange(len(header_column)), columns=header_column).iloc[0, :].to_dict()
+
+
+
+

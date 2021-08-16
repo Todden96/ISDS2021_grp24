@@ -1,8 +1,5 @@
 import pandas as pd
 import os
-path = r'C:\Users\Johan\OneDrive - University of Copenhagen\8. Semester\ISDS\data'
-os.chdir(path)
-import numpy as np
 from time import sleep
 from tqdm import tqdm
 
@@ -895,27 +892,28 @@ category_tags = ['1003823',
  '9803',
  '9994',
  '9']
-tags_ids =['1003823',
- '10235',
- '1027',
- '1036',
- '10383',
- '1038',
- '10397',
- '10437',
- '10679',
- '10695',
- '10808',
- '10816',
- '1084988',
- '1091588',
- '1100686',
- '1100687',
- '1100688',
- '1100689',
- '11014',
- '11104',
- '11123',
+tags_ids =[
+# '1084988',
+# '1091588',
+# '1100686',
+ #'1100687',
+ # '1100688',
+# '1100689',
+#'11014',
+#'1003823',
+#'10235',
+# '1027',
+#'1036',
+#'10383',
+#'1038',
+#'10397',
+#'10437',
+#'10679',
+# '10695',
+#'10808',
+# '10816',
+# '11104',
+# '11123',
  '11333',
  '113',
  '11634',
@@ -1766,8 +1764,6 @@ header_column = ['name', 'age', 'release_date', 'developer', 'price'] + lang_lis
     'num_tags']
 
 
-path = r'C:\Users\Johan\OneDrive - University of Copenhagen\8. Semester\ISDS\tags_all'
-os.chdir(path)
 
 for item in tqdm(tags_ids):
     if str(item)+'.' not in id_check_list:
@@ -1776,15 +1772,15 @@ for item in tqdm(tags_ids):
         input_df = pd.read_csv('dataframe_id_'+str(item)+'_'+str(tags_dict['Name'][int(item)])+'.csv', sep=",")
 
         rows_list = []
-    for row in tqdm(input_df.iloc[:, -1]):
+        for row in tqdm(input_df.iloc[:, -1]):
 
-            sleep(1.015)
-            rows_list.append(steam_info(row))
+                sleep(3) # poof mans rate limit
+                rows_list.append(steam_info(row))
 
-            df = pd.DataFrame(rows_list)
+        df = pd.DataFrame(rows_list)
 
-            os.chdir(r'C:\Users\Johan\OneDrive - University of Copenhagen\8. Semester\ISDS\Data')
+        os.chdir(r'C:\Users\Johan\OneDrive - University of Copenhagen\8. Semester\ISDS\Data')
 
-    df.to_excel('dataframe_id_' + item + '.xlsx', index=False)
+        df.to_excel('dataframe_id_' + item + '.xlsx', index=False)
 
-    print(f'dataframe id:  {str(item)} - Done')
+        print(f'dataframe id:  {str(item)} - Done')
