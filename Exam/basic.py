@@ -20,7 +20,7 @@ def main():
     proxies = asyncio.Queue()
     broker = Broker(proxies)
     tasks = asyncio.gather(broker.find(types=['HTTP', 'HTTPS'], limit=10),
-                           save(proxies, filename='proxies.txt'))
+                           save(proxies, filename='Tags_DataFrames_Output/proxies.txt'))
     loop = asyncio.get_event_loop()
     loop.run_until_complete(tasks)
 
