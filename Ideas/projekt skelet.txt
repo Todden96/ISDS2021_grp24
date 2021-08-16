@@ -14,6 +14,12 @@ evt. også scrape efter bestemte parametre, og drop de spil som ikke opfylder de
 saml katalog i liste #som kan fodres til SteamDB-navigator
 
 
+- Done
+
+
+
+
+
 # hvad scraper vi?
 for spil på Steam:
     naviger til sted med passende info (SteamDB)

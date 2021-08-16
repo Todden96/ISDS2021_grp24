@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 ### Counter UserAgent detection
 
-def Selenium_fake_agent(url):
+def Selenium_fake_agent(url, options="--window-position=2000,0"):
     assert url == type(str)
 
 
@@ -16,5 +16,6 @@ def Selenium_fake_agent(url):
     print(userAgent)
 
     options.add_argument(f'user-agent={userAgent}')
+    options.add_argument(options)
     driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
     return driver.get(url)

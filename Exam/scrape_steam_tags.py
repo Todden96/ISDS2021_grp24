@@ -35,3 +35,4 @@ def steam_db_tag_ids():
 
     return tags_df
 
+steam_db_tag_ids().to_csv('tags_all.csv')

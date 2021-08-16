@@ -64,7 +64,9 @@ for i in tqdm(range(len(tags_df))) :
                 print(f' SteamDB id: {id} ')
             except:
                 pass
-
+            if isinstance(price_dict[id], pd.DataFrame): # checks if there is a valid dataframe
+                os.chdir(r'C:\Users\Johan\OneDrive - University of Copenhagen\8. Semester\ISDS\Data')
+                price_dict[id].to_csv('dataframe_id_'+str(id)+'.csv')
 
     saved_list.append(id)
     os.chdir(r'C:\Users\Johan\OneDrive - University of Copenhagen\8. Semester\ISDS')
