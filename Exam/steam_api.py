@@ -460,6 +460,8 @@ lang_list = ['Arabic',
              'Ukrainian',
              'Vietnamese']
 
+id =284080
+
 header_column = ['id','name', 'age', 'release_date', 'developer', 'price', 'free to play'] + lang_list + [
     'num_lang'] + tags_list + ['num_tags']
 
